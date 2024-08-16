@@ -4,7 +4,7 @@
     "features": {
         "ghcr.io/devcontainers/features/node:1": {},
         "ghcr.io/devcontainers/features/terraform:1": {
-            "terraform_version": "~> 1.8.3"
+            "version": "1.8.3"
         }
     },
     "customizations": {
