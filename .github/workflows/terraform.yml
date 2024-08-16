@@ -34,10 +34,13 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
         terraform_version: "~> 1.8.3"
 
+    - name: Ensure Terraform Providers Directory Exists
+      run: mkdir --parents .terraform/providers
+
     - name: Cache Terraform Plugins
       uses: actions/cache@v4
       with:
-        path: ~/.terraform.d/plugin-cache
+        path: .terraform/providers
         key: terraform-${{ runner.os }}-${{ hashFiles('.terraform.lock.hcl') }}
         restore-keys: terraform-${{ runner.os }}-
           
@@ -58,7 +61,3 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
-
-    - run: |
-        ls -al .
-        ls -al ~
