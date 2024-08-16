@@ -19,3 +19,4 @@ resource "random_integer" "example" {
 output "random_number" {
   value = random_integer.example.result
 }
+
