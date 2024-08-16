@@ -8,6 +8,9 @@ on:
 permissions:
   contents: read
 
+env:
+  TF_IN_AUTOMATION: TRUE
+
 jobs:
   terraform:
     name: 'Terraform'
@@ -31,6 +34,13 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
         terraform_version: "~> 1.8.3"
 
+    - name: Cache Terraform Plugins
+      uses: actions/cache@v4
+      with:
+        path: .terraform.d/plugin-cache
+        key: terraform-${{ runner.os }}-${{ hashFiles('**/.terraform.lock.hcl') }}
+        restore-keys: terraform-${{ runner.os }}-
+          
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
